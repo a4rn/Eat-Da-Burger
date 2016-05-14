@@ -1,18 +1,38 @@
 var express = require('express');
-var router = require('router');
-var burger = require('./models/burger.js');
+var router = express.Router();
+var burger = require('../models/burger.js');
 
 //root get route
-app.get('/', function(req, res) {
-
-  // connection.query('SELECT * FROM events;', function(err, data) {
-  //   if (err) throw err;
-
-  //test it
-  //console.log('The solution is: ', data);
-
-  //test it
-  //res.send(data);
-
+router.get('/', function(req, res) {
   res.render('index');
 });
+
+router.get('/index', function(req, res) {
+  burger.all(function(data) {
+    var hbsObject = {
+      burgers: data
+    }
+
+    res.render('index', hbsObject);
+  });
+});
+
+router.post('/burgers/create', function(req, res) {
+  console.log(req.body)
+
+  burger.create(req.body.burgername, function(data) {
+    res.redirect('/index')
+  });
+});
+
+router.post('/burgers/update/:id', function(req, res) {
+  var id = req.params.id;
+  console.log(req.body)
+  console.log('id = ' + id)
+
+  burger.update(id, function(data) {
+    res.redirect('/index');
+  });
+});
+
+module.exports = router;

@@ -19,16 +19,14 @@ app.set('view engine', 'handlebars');
 
 // Sets up the Express App
 // =============================================================
-
 var PORT = process.env.PORT || 3001;
+
+var routes = require('./controllers/burgers_controller.js');
+app.use('/', routes);
+
 
 // Starts the server to begin listening 
 // =============================================================
 app.listen(PORT, function() {
   console.log('App listening on PORT ' + PORT);
-});
-
-
-app.get('/', function(req, res) {
-  res.render('index');
 });

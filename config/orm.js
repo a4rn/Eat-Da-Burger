@@ -1,37 +1,48 @@
-console.log('inside orm.js ')
 var connection = require('./connection.js');
 
+connection.connect(function(err) {
+  if (err) {
+    console.error('error connecting: ' + err.stack);
+    return;
+  }
+  console.log('connected as id ' + connection.threadId);
+});
+
 var orm = {
-  selectWhere: function(tableInput, colToSearch, valOfCol) {
-    var queryString = 'SELECT * FROM ' + tableInput + ' WHERE ' + colToSearch + ' = ?';
+  create: function(table, vals, cb) {
 
-    connection.query(queryString, [valOfCol], function(err, result) {
-      console.log(result);
+    var queryString = 'INSERT INTO ' + table + ' (id,burger_name,devoured,date) VALUES (default,"' + vals + '",0,current_timestamp)';
+
+    console.log(queryString);
+
+    connection.query(queryString, function(err, result) {
+      if (err) throw err;
+      cb(result);
+
     });
   },
-  selectAll: function(tableInput) {
-    var queryString = 'SELECT * FROM ' + tableInput;
+
+  update: function(table, key, cb) {
+
+    var queryString = 'UPDATE ' + table + ' SET devoured = 1 WHERE id = ' + key;
+
+    console.log(queryString);
+
+    connection.query(queryString, function(err, result) {
+      if (err) throw err;
+      cb(result);
+
+    });
+  },
+
+  showall: function(table, cb) {
+    var queryString = 'SELECT * FROM ' + table;
 
     console.log(queryString)
 
     connection.query(queryString, function(err, result) {
-      console.log(result);
-    });
-  },
-  selectAndOrder: function(whatToSelect, table, orderCol, orderBy) {
-    var queryString = 'SELECT ' + whatToSelect + ' FROM ' + table + ' ORDER BY ' + orderCol + ' ' + orderBy;
-
-    console.log(queryString)
-
-    connection.query(queryString, function(err, result) {
-      console.log(result);
-    });
-  },
-  findWhoHasMost: function(tableOneCol, tableTwoForeignKey, tableOne, tableTwo) {
-    var queryString = 'SELECT ' + tableOneCol + ', COUNT(' + tableOneCol + ') AS count FROM ' + tableOne + ' LEFT JOIN ' + tableTwo + ' ON ' + tableTwo + '.' + tableTwoForeignKey + '= ' + tableOne + '.id GROUP BY ' + tableOneCol + ' ORDER BY count desc LIMIT 1';
-
-    connection.query(queryString, function(err, result) {
-      console.log(result);
+      if (err) throw err;
+      cb(result);
     });
   }
 };

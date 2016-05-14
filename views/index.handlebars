@@ -1,31 +1,74 @@
 
 <style media="screen">
 body  {background-color: brown;}
-h1, form, h6 {text-align: center;}
+h1, h6, form {text-align: center;}
 img {display: block;
 	margin-left: auto;
-	margin-right: auto}
-
+	margin-right: auto;}
 button {background-color: green;
-border-color: green;
-color: white}
+		border-color: green;
+		color: white}
+#devour {margin-left: 400px;}
+	
+.left-side {
+	height: 50px;
+	width: 200px;
+	display: block;
+	background-color: white;
+	float; left: 
+}
+
+.right-side {
+	height: 50px;
+	width: 200px;
+	display: inline-block;
+	background-color: yellow;
+	float: right;
+}
+
 </style>
 
 <img src="http://www.clipartbest.com/cliparts/aTe/RKr/aTeRKr56c.jpeg" height="100px" width="100px">
+
 <h1>Eat-Da-Burger!</h1>
+<div class='col-md-8'>
+
+  	{{#each burgers}}
+    	{{#unless this.devoured}}
+      		<div class='left-side'>
+        		{{this.id}}. {{this.burger_name}}
+        	</div>
+         	<form id='devour' action="burgers/update/{{this.id}}" method="POST">
+	   	    	<input type="hidden"  name="devoured" value=1>
+	        	<button type="submit">Devour It!</button>
+	        </form>
+        {{/unless}}
+  	{{/each}}
+  	
+</div>
 
 
-<form action="/create" method="POST">
-	<textarea rows=3 cols=40 type="text" name="event"></textarea>
+<div class='col-md-4'>
+
+  		{{#each burgers}}
+    		 {{#if this.devoured}}
+      			<div class='right-side'>
+        			{{this.id}}. {{this.burger_name}}
+        			<br>
+        		</div>
+        		<br>
+   		 	{{/if}}
+  		{{/each}}
+
+</div>
+
+<div class='col-md-12'>
 	<br>
-	<button type="submit">Submit</button>
-</form>
-<h6>Enter a burger you want to eat then, Click the Submit button.</h6>
+	<form action="/burgers/create" method="POST">
+		<textarea rows=3 cols=40 type="text" name="burgername"></textarea><br>
+		<button type="submit">Submit</button>
+	</form>
+	<h6>Enter a burger you want to eat then, Click the Submit button.</h6>
+</div>
 
 
-<!-- <ul>
-{{#each foods }}
-  <li>{{lunch}}</li>
-{{/each}}
-</ul>
- -->
