@@ -44,6 +44,22 @@ var orm = {
       if (err) throw err;
       cb(result);
     });
+  },
+
+  empty: function(table, cb) {
+    var queryString = 'DELETE FROM ' + table;
+
+    connection.query(queryString, function(err, result) {
+      if (err) throw err;
+
+      var queryString = 'ALTER TABLE ' + table + ' AUTO_INCREMENT = 0';
+
+      connection.query(queryString, function(err, result) {
+        if (err) throw err;
+        console.log(result)
+        cb(result);
+      })
+    })
   }
 };
 

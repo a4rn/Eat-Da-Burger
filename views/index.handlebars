@@ -1,7 +1,12 @@
 
 <style media="screen">
 body  {background-color: brown;}
+textarea {
+  padding-top: 10px;
+}
+
 h1, h6, form {text-align: center;}
+
 img {display: block;
 	margin-left: auto;
 	margin-right: auto;}
@@ -15,7 +20,7 @@ button {background-color: green;
 	width: 200px;
 	display: block;
 	background-color: white;
-	float; left: 
+	padding-top: 10px;
 }
 
 .right-side {
@@ -66,7 +71,7 @@ button {background-color: green;
 <div class='col-md-12'>
 	<br>
 	<form action="/burgers/create" method="POST">
-		<textarea rows=3 cols=40 type="text" name="burgername"></textarea><br>
+		<textarea rows=2 cols=40 type="text" name="burgername"></textarea><br>
 		<button type="submit">Submit</button>
 	</form>
 	<h6>Enter a burger you want to eat then, Click the Submit button.</h6>

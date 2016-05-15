@@ -35,4 +35,12 @@ router.post('/burgers/update/:id', function(req, res) {
   });
 });
 
+router.get('/cleartable', function(req, res) {
+  console.log(req.body)
+
+  burger.delete(function(data) {
+    res.redirect('/index')
+  });
+});
+
 module.exports = router;
